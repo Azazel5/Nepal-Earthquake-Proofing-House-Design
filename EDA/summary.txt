@@ -1,0 +1,146 @@
+========================================================================
+NEPAL EARTHQUAKE DAMAGE — TRAINING SET EDA SUMMARY
+========================================================================
+Rows: 260,601  |  Columns (incl. target): 40
+Missing values (all columns): 0
+
+--- TARGET: damage_grade ---
+  Grade 1 (low damage):  25,124  ( 9.64%)
+  Grade 2 (medium damage): 148,259  (56.89%)
+  Grade 3 (high damage):  87,218  (33.47%)
+  Max/min class ratio: 5.90x  (moderate imbalance; grade 2 dominates)
+
+--- FEATURE TYPES & RANGES (numeric) ---
+  geo_level_1_id [Geographic region ID (coarse administrative level in Nepal).]
+    dtype=int  min=0  max=30  mean=13.90  median=12  nunique=31
+  geo_level_2_id [Geographic region ID (mid-level administrative division).]
+    dtype=int  min=0  max=1427  mean=701.07  median=702  nunique=1414
+  geo_level_3_id [Geographic region ID (finest administrative / locality level).]
+    dtype=int  min=0  max=12567  mean=6257.88  median=6270  nunique=11595
+  count_floors_pre_eq [Number of floors before the earthquake.]
+    dtype=int  min=1  max=9  mean=2.13  median=2  nunique=9
+  age [Age of the building in years (995 is used as an unknown / sentinel bucket).]
+    dtype=int  min=0  max=200  mean=21.34  |  unknown (995): 1,390
+  area_percentage [Relative footprint area of the building (ordinal scale, higher = larger).]
+    dtype=int  min=1  max=100  mean=8.02  median=7  nunique=84
+  height_percentage [Relative height of the building (ordinal scale, higher = taller).]
+    dtype=int  min=2  max=32  mean=5.43  median=5  nunique=27
+  count_families [Number of families residing in the building.]
+    dtype=int  min=0  max=9  mean=0.98  median=1  nunique=10
+
+--- CATEGORICAL FEATURES (encoded letters) ---
+  land_surface_condition [Surface condition around the building site.]
+    't' (tilted / sloped terrain): 216,757  (83.18%)
+    'n' (normal): 35,528  (13.63%)
+    'o' (obstacle (trees, rocks, etc.)): 8,316  (3.19%)
+  foundation_type [Type of foundation supporting the structure.]
+    'r' (reinforced mat / slab): 219,196  (84.11%)
+    'w' (weak rock): 15,118  (5.80%)
+    'u' (stiff mat / slab): 14,260  (5.47%)
+    'i' (rocky or sandy soil): 10,579  (4.06%)
+    'h' (hard rock): 1,448  (0.56%)
+  roof_type [Roof construction category.]
+    'n' (normal): 182,842  (70.16%)
+    'q' (quality / improved): 61,576  (23.63%)
+    'x' (special design): 16,183  (6.21%)
+  ground_floor_type [Ground-floor construction / material type.]
+    'f' (floor): 209,619  (80.44%)
+    'x' (wood): 24,877  (9.55%)
+    'v' (vault): 24,593  (9.44%)
+    'z' (stone / mud): 1,004  (0.39%)
+    'm' (masonry): 508  (0.19%)
+  other_floor_type [Upper-floor construction / material type.]
+    'q' (mud and stone): 165,282  (63.42%)
+    'x' (wood): 43,448  (16.67%)
+    'j' (joists / bamboo): 39,843  (15.29%)
+    's' (stone / rubble): 12,028  (4.62%)
+  position [How the building sits relative to neighbors and streets.]
+    's' (within settlement cluster): 202,090  (77.55%)
+    't' (touching adjacent buildings): 42,896  (16.46%)
+    'j' (adjacent to street): 13,282  (5.10%)
+    'o' (detached): 2,333  (0.90%)
+  plan_configuration [Overall floor-plan shape / layout category.]
+    'd' (regular): 250,072  (95.96%)
+    'q' (U-shaped): 5,692  (2.18%)
+    'u' (U-shaped with courtyard): 3,649  (1.40%)
+    's' (square-shaped): 346  (0.13%)
+    'c' (covered balconies): 325  (0.12%)
+    'a' (arc-shaped): 252  (0.10%)
+    'o' (in/out corner): 159  (0.06%)
+    'm' (multiple interior extensions): 46  (0.02%)
+    'n' (non-straight walls): 38  (0.01%)
+    'f' (flat-shaped roof plan): 22  (0.01%)
+  legal_ownership_status [Legal ownership or use-right category for the building.]
+    'v' (owner-occupied): 250,939  (96.29%)
+    'a' (administrative): 5,512  (2.12%)
+    'w' (worship / religious): 2,677  (1.03%)
+    'r' (rental): 1,473  (0.57%)
+
+--- BINARY: superstructure materials (multi-label) ---
+  has_superstructure_adobe_mud: 8.86% present  — Binary: adobe/mud superstructure present.
+  has_superstructure_mud_mortar_stone: 76.19% present  — Binary: mud-mortar stone superstructure present.
+  has_superstructure_stone_flag: 3.43% present  — Binary: dry stone / flagstone superstructure present.
+  has_superstructure_cement_mortar_stone: 1.82% present  — Binary: cement-mortar stone superstructure present.
+  has_superstructure_mud_mortar_brick: 6.82% present  — Binary: mud-mortar brick superstructure present.
+  has_superstructure_cement_mortar_brick: 7.53% present  — Binary: cement-mortar brick superstructure present.
+  has_superstructure_timber: 25.50% present  — Binary: timber superstructure present.
+  has_superstructure_bamboo: 8.50% present  — Binary: bamboo superstructure present.
+  has_superstructure_rc_non_engineered: 4.26% present  — Binary: non-engineered reinforced concrete present.
+  has_superstructure_rc_engineered: 1.59% present  — Binary: engineered reinforced concrete present.
+  has_superstructure_other: 1.50% present  — Binary: other / unspecified superstructure material present.
+  Materials per building: mean=1.46, max=8
+
+--- BINARY: secondary use flags ---
+  Any secondary use: 11.19%
+  has_secondary_use_agriculture: 6.438%
+  has_secondary_use_hotel: 3.363%
+  has_secondary_use_rental: 0.810%
+  has_secondary_use_institution: 0.094%
+  has_secondary_use_school: 0.036%
+  has_secondary_use_industry: 0.107%
+  has_secondary_use_health_post: 0.019%
+  has_secondary_use_gov_office: 0.015%
+  has_secondary_use_use_police: 0.009%
+  has_secondary_use_other: 0.512%
+
+--- FULL FEATURE GLOSSARY ---
+  building_id: Unique identifier for each building record.
+  geo_level_1_id: Geographic region ID (coarse administrative level in Nepal).
+  geo_level_2_id: Geographic region ID (mid-level administrative division).
+  geo_level_3_id: Geographic region ID (finest administrative / locality level).
+  count_floors_pre_eq: Number of floors before the earthquake.
+  age: Age of the building in years (995 is used as an unknown / sentinel bucket).
+  area_percentage: Relative footprint area of the building (ordinal scale, higher = larger).
+  height_percentage: Relative height of the building (ordinal scale, higher = taller).
+  land_surface_condition: Surface condition around the building site.
+  foundation_type: Type of foundation supporting the structure.
+  roof_type: Roof construction category.
+  ground_floor_type: Ground-floor construction / material type.
+  other_floor_type: Upper-floor construction / material type.
+  position: How the building sits relative to neighbors and streets.
+  plan_configuration: Overall floor-plan shape / layout category.
+  has_superstructure_adobe_mud: Binary: adobe/mud superstructure present.
+  has_superstructure_mud_mortar_stone: Binary: mud-mortar stone superstructure present.
+  has_superstructure_stone_flag: Binary: dry stone / flagstone superstructure present.
+  has_superstructure_cement_mortar_stone: Binary: cement-mortar stone superstructure present.
+  has_superstructure_mud_mortar_brick: Binary: mud-mortar brick superstructure present.
+  has_superstructure_cement_mortar_brick: Binary: cement-mortar brick superstructure present.
+  has_superstructure_timber: Binary: timber superstructure present.
+  has_superstructure_bamboo: Binary: bamboo superstructure present.
+  has_superstructure_rc_non_engineered: Binary: non-engineered reinforced concrete present.
+  has_superstructure_rc_engineered: Binary: engineered reinforced concrete present.
+  has_superstructure_other: Binary: other / unspecified superstructure material present.
+  legal_ownership_status: Legal ownership or use-right category for the building.
+  count_families: Number of families residing in the building.
+  has_secondary_use: Binary: building has any secondary (non-residential) use.
+  has_secondary_use_agriculture: Binary: secondary use — agriculture.
+  has_secondary_use_hotel: Binary: secondary use — hotel / lodging.
+  has_secondary_use_rental: Binary: secondary use — rental income.
+  has_secondary_use_institution: Binary: secondary use — institution.
+  has_secondary_use_school: Binary: secondary use — school.
+  has_secondary_use_industry: Binary: secondary use — industry.
+  has_secondary_use_health_post: Binary: secondary use — health post.
+  has_secondary_use_gov_office: Binary: secondary use — government office.
+  has_secondary_use_use_police: Binary: secondary use — police.
+  has_secondary_use_other: Binary: secondary use — other.
+  damage_grade: Target: post-earthquake damage (1 = low, 2 = medium, 3 = high / severe).
