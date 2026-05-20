@@ -5,6 +5,7 @@ Retrain multiclass LightGBM with Optuna trial 66 params and register as a new ru
 
 from __future__ import annotations
 
+import argparse
 import shutil
 import time
 from pathlib import Path
@@ -21,12 +22,14 @@ from inference import (
     predict_multiclass,
     print_grade_distribution,
 )
+from preprocess import DATA_DIR
 from run_manager import PROCESSED_DIR, ROOT, RunManager
 
 RANDOM_STATE = 42
 CV_FOLDS = 5
 EARLY_STOPPING_ROUNDS = 50
 FEATURE_SET = "baseline_61_features"
+EMBEDDED_FEATURE_SET = "embedded_192_features"
 
 # Optuna trial 66 — best of 97-trial study (3-fold search micro F1 ≈ 0.7407)
 TRIAL_66_PARAMS = {
@@ -52,6 +55,8 @@ TRIAL_66_PARAMS = {
 
 RUN_001_ID = "run_001"
 RUN_002_ID = "run_002"
+RUN_003_ID = "run_003"
+RUN_004_ID = "run_004"
 
 BASELINE_MULTICLASS_PARAMS = {
     "objective": "multiclass",
@@ -83,7 +88,7 @@ def run_cv(
     scores: list[float] = []
     best_iters: list[int] = []
 
-    for train_idx, val_idx in cv.split(X, y):
+    for fold, (train_idx, val_idx) in enumerate(cv.split(X, y), start=1):
         model = LGBMClassifier(**params)
         model.fit(
             X.iloc[train_idx],
@@ -96,7 +101,9 @@ def run_cv(
         )
         best_iters.append(model.best_iteration_)
         y_pred = model.predict(X.iloc[val_idx])
-        scores.append(f1_score(y[val_idx], y_pred, average="micro", labels=[1, 2, 3]))
+        fold_f1 = f1_score(y[val_idx], y_pred, average="micro", labels=[1, 2, 3])
+        scores.append(fold_f1)
+        print(f"    fold {fold}: {fold_f1:.4f}")
 
     return scores, best_iters
 
@@ -150,28 +157,45 @@ def migrate_run_001(rm: RunManager) -> None:
     print(f"Migration: created {RUN_001_ID} (public score 0.7370, CV 0.7417)")
 
 
-def train_run_002(rm: RunManager) -> str:
-    """Train trial 66 params, CV, full fit, test submission → run_002."""
-    run_id = RUN_002_ID
+def train_multiclass_run(
+    rm: RunManager,
+    run_id: str,
+    *,
+    x_train_path: Path | None = None,
+    x_test_path: Path | None = None,
+    description: str | None = None,
+    feature_set: str | None = None,
+) -> str:
+    """Train trial 66 params, CV, full fit, test submission for any feature matrix."""
     run_dir = rm.run_path(run_id)
     model_path = run_dir / "model.pkl"
     cv_path = run_dir / "cv_scores.json"
 
-    X_train = pd.read_csv(PROCESSED_DIR / "X_train.csv")
+    x_train_file = x_train_path or (PROCESSED_DIR / "X_train.csv")
+    X_train = pd.read_csv(x_train_file)
     y_train = pd.read_csv(PROCESSED_DIR / "y_train_multiclass.csv")["damage_grade"].to_numpy()
+
+    fs = feature_set or (
+        EMBEDDED_FEATURE_SET if x_train_path else FEATURE_SET
+    )
+    desc = description or (
+        "Entity embeddings + geo rates + interactions"
+        if run_id == RUN_003_ID
+        else "Optuna trial 66 best params, 99 trials, 3-fold search"
+    )
 
     if not run_dir.exists():
         rm.create_run(
-            description="Optuna trial 66 best params, 99 trials, 3-fold search",
+            description=desc,
             model_type="LightGBM",
-            feature_set=FEATURE_SET,
+            feature_set=fs,
             params=TRIAL_66_PARAMS,
             run_id=run_id,
             objective="multiclass",
             n_features=X_train.shape[1],
             cv_folds=CV_FOLDS,
             cv_metric="micro_f1",
-            notes="Retrained with 5-fold CV; n_estimators from CV early stopping",
+            notes=f"Retrained from {x_train_file.name}",
         )
 
     n_estimators = TRIAL_66_PARAMS["n_estimators"]
@@ -183,11 +207,11 @@ def train_run_002(rm: RunManager) -> str:
         print(f"\nUsing saved CV scores for {run_id}: {cv_data['mean']:.4f} ± {cv_data['std']:.4f}")
         n_estimators = TRIAL_66_PARAMS["n_estimators"]
     else:
-        print(f"\nRunning {CV_FOLDS}-fold CV for {run_id}...")
+        print(f"\n{run_id} {CV_FOLDS}-fold CV:")
         fold_scores, best_iters = run_cv(X_train, y_train, TRIAL_66_PARAMS)
         mean_f1 = float(np.mean(fold_scores))
         std_f1 = float(np.std(fold_scores, ddof=1))
-        print(f"  Micro F1: {mean_f1:.4f} ± {std_f1:.4f}")
+        print(f"  mean micro F1: {mean_f1:.4f} ± {std_f1:.4f}")
         rm.save_cv_scores(run_id, fold_scores, mean_f1, std_f1)
         n_estimators = int(round(np.mean(best_iters)))
 
@@ -206,11 +230,21 @@ def train_run_002(rm: RunManager) -> str:
         model = joblib.load(model_path)
         print(f"{run_id} model.pkl OK — skipping fit.")
 
-    building_ids, X_test = build_test_matrix()
+    if x_test_path:
+        building_ids = pd.read_csv(DATA_DIR / "test_values.csv")["building_id"].values
+        X_test = pd.read_csv(x_test_path)
+    else:
+        building_ids, X_test = build_test_matrix()
+
     grades = predict_multiclass(model, X_test)
     rm.save_submission(run_id, grades_to_submission_df(building_ids, grades))
     print_grade_distribution(grades, f"{run_id} submission grade distribution")
     return run_id
+
+
+def train_run_002(rm: RunManager) -> str:
+    """Train trial 66 on baseline 61-feature matrix → run_002."""
+    return train_multiclass_run(rm, RUN_002_ID)
 
 
 def migrate_optuna_outputs() -> None:
@@ -248,9 +282,35 @@ def cleanup_legacy_artifacts() -> None:
             print(f"Removed {path.relative_to(ROOT)}")
 
 
+def parse_args() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Retrain multiclass LightGBM")
+    parser.add_argument("--run-id", type=str, default=None, help="e.g. run_003")
+    parser.add_argument("--x-train", type=str, default=None, help="Path to X_train CSV")
+    parser.add_argument("--x-test", type=str, default=None, help="Path to X_test CSV")
+    parser.add_argument("--description", type=str, default=None, help="Run description")
+    return parser.parse_args()
+
+
 def main() -> None:
     t0 = time.time()
+    args = parse_args()
     rm = RunManager()
+
+    if args.run_id:
+        run_id = args.run_id
+        print("=" * 60)
+        print(f"Retrain {run_id}")
+        print("=" * 60)
+        train_multiclass_run(
+            rm,
+            run_id,
+            x_train_path=Path(args.x_train) if args.x_train else None,
+            x_test_path=Path(args.x_test) if args.x_test else None,
+            description=args.description,
+        )
+        rm.print_all_runs()
+        print(f"\nTotal wall-clock time: {time.time() - t0:.1f} seconds")
+        return
 
     print("=" * 60)
     print("Artifact migration & run_002 retrain")

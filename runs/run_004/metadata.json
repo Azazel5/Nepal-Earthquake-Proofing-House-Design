@@ -1,0 +1,46 @@
+{
+  "run_id": "run_004",
+  "timestamp": "2026-05-20T13:24:40.156284+00:00",
+  "description": "Embeddings + Laplace-smoothed CV geo rates \u2014 fix overfit gap",
+  "model_type": "EmbeddingNet_feature_extractor",
+  "objective": "multiclass",
+  "feature_set": "embedded_192_features",
+  "n_features": 191,
+  "params": {
+    "source": "embed.py",
+    "lgbm_params": "trial_66",
+    "geo_rate_alpha": 10,
+    "geo_rate_cv_folds": 5
+  },
+  "cv_folds": null,
+  "cv_metric": null,
+  "cv_mean": 0.7587346508058327,
+  "cv_std": 0.001457790770311784,
+  "cv_scores_per_fold": [
+    0.756859171143515,
+    0.7594493476592479,
+    0.7588018035303147,
+    0.7578904451266308,
+    0.7606724865694551
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Smoothed + CV geo rates; embeddings frozen from run_003",
+  "n_features_baseline": 61,
+  "n_features_embedded": 191,
+  "embedding_dims": {
+    "geo_level_1_id": 16,
+    "geo_level_2_id": 50,
+    "geo_level_3_id": 50,
+    "foundation_type": 3,
+    "roof_type": 2,
+    "land_surface_condition": 2,
+    "ground_floor_type": 3,
+    "other_floor_type": 3,
+    "position": 3,
+    "plan_configuration": 5,
+    "legal_ownership_status": 3
+  },
+  "geo_rate_alpha": 10
+}

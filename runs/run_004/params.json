@@ -1,0 +1,6 @@
+{
+  "source": "embed.py",
+  "lgbm_params": "trial_66",
+  "geo_rate_alpha": 10,
+  "geo_rate_cv_folds": 5
+}

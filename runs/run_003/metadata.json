@@ -1,0 +1,45 @@
+{
+  "run_id": "run_003",
+  "timestamp": "2026-05-20T12:53:07.428531+00:00",
+  "description": "Entity embeddings + class-conditional geo + interactions",
+  "model_type": "EmbeddingNet_feature_extractor",
+  "objective": "multiclass",
+  "feature_set": "embedded_192_features",
+  "n_features": 191,
+  "params": {
+    "source": "embed.py",
+    "lgbm_params": "trial_66"
+  },
+  "cv_folds": null,
+  "cv_metric": null,
+  "cv_mean": 0.7625239831158864,
+  "cv_std": 0.0013608595638000644,
+  "cv_scores_per_fold": [
+    0.7607444359171144,
+    0.7619196085955487,
+    0.7633106293169608,
+    0.7623273215656178,
+    0.7643179201841903
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Features for LightGBM run_003",
+  "embedding_epochs_trained": 37,
+  "best_val_f1": 0.6867,
+  "n_features_baseline": 61,
+  "n_features_embedded": 191,
+  "embedding_dims": {
+    "geo_level_1_id": 16,
+    "geo_level_2_id": 50,
+    "geo_level_3_id": 50,
+    "foundation_type": 3,
+    "roof_type": 2,
+    "land_surface_condition": 2,
+    "ground_floor_type": 3,
+    "other_floor_type": 3,
+    "position": 3,
+    "plan_configuration": 5,
+    "legal_ownership_status": 3
+  }
+}
