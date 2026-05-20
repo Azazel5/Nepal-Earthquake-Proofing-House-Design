@@ -220,3 +220,4 @@ data/
 
 # Model artifacts (encoders, scalers, trained classifiers)
 *.pkl
+*.db

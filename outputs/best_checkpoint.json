@@ -1,0 +1,20 @@
+{
+  "best_score": 0.7417,
+  "best_params": {
+    "num_leaves": 63,
+    "max_depth": 8,
+    "min_child_samples": 20,
+    "learning_rate": 0.05,
+    "n_estimators": 1000,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 5,
+    "reg_alpha": 1e-08,
+    "reg_lambda": 1e-08,
+    "min_split_gain": 0.0
+  },
+  "best_model_path": "models/lgbm_tuned.pkl",
+  "submission_path": "outputs/submission_tuned.csv",
+  "trial_number": 0,
+  "timestamp": "2026-05-19T21:13:32.554436+00:00"
+}
