@@ -228,3 +228,8 @@ runs/*/submission.csv
 
 # Optuna SQLite study (large binary)
 outputs/optuna/*.db
+
+# Evaluation artifacts (tracked: engineering_recommendations.txt, CSVs without submissions)
+runs/evaluation/*.png
+runs/evaluation/oof_*.npy
+runs/evaluation/proba_*.npy

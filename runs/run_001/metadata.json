@@ -31,5 +31,28 @@
   "public_leaderboard_score": 0.737,
   "submitted": true,
   "submission_date": "2026-05-19",
-  "notes": "CV from predict.py 5-fold; per-fold scores not archived"
+  "notes": "CV from predict.py 5-fold; per-fold scores not archived",
+  "evaluated": true,
+  "evaluation_path": "runs/evaluation/",
+  "oof_metrics": {
+    "micro_f1": 0.7416586722947045,
+    "macro_f1": 0.680311690399399,
+    "accuracy": 0.7416586722947045,
+    "auc_macro_ovr": 0.8680058272873477,
+    "grade1_f1": 0.5577308644887369,
+    "grade1_precision": 0.6823461510713513,
+    "grade1_recall": 0.4716030914983795,
+    "grade2_f1": 0.7909397552557264,
+    "grade2_precision": 0.7397090434233983,
+    "grade2_recall": 0.8497947762766432,
+    "grade3_f1": 0.6922644514537335,
+    "grade3_precision": 0.7603155547933459,
+    "grade3_recall": 0.6353942729383438
+  },
+  "oof_ece": {
+    "grade1": 0.002521337387126749,
+    "grade2": 0.00537087692494728,
+    "grade3": 0.0037232356170842622,
+    "overall": 0.005633123588455081
+  }
 }

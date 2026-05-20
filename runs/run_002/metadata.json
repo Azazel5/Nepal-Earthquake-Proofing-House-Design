@@ -40,5 +40,28 @@
   "public_leaderboard_score": null,
   "submitted": false,
   "submission_date": null,
-  "notes": "Retrained with 5-fold CV for honest estimate; n_estimators from CV early stopping"
+  "notes": "Retrained with 5-fold CV for honest estimate; n_estimators from CV early stopping",
+  "evaluated": true,
+  "evaluation_path": "runs/evaluation/",
+  "oof_metrics": {
+    "micro_f1": 0.7415675364543362,
+    "macro_f1": 0.6793955755276891,
+    "accuracy": 0.7415675364543362,
+    "auc_macro_ovr": 0.8680023542537677,
+    "grade1_f1": 0.5543793246200248,
+    "grade1_precision": 0.6811015040325511,
+    "grade1_recall": 0.46741460982298677,
+    "grade2_f1": 0.7908819836785939,
+    "grade2_precision": 0.7398571522950327,
+    "grade2_recall": 0.849466081196113,
+    "grade3_f1": 0.692925418284449,
+    "grade3_precision": 0.7597797838872932,
+    "grade3_recall": 0.6368847994955141
+  },
+  "oof_ece": {
+    "grade1": 0.0020394549428648483,
+    "grade2": 0.005225517539128189,
+    "grade3": 0.003796089884349284,
+    "overall": 0.005235511881683726
+  }
 }

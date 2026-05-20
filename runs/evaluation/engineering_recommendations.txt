@@ -1,0 +1,31 @@
+FEATURE ENGINEERING RECOMMENDATIONS
+════════════════════════════════════════════════════════════
+Generated from OOF error analysis (run_001 vs run_002).
+
+Priority 1 (high dangerous miss by district):
+  → geo_level_1=5 interaction features
+    Reason: dangerous_miss_rate=100.0%, error_rate=24.5%
+  → geo_level_1=29 interaction features
+    Reason: dangerous_miss_rate=100.0%, error_rate=10.4%
+  → geo_level_1=1 interaction features
+    Reason: dangerous_miss_rate=99.6%, error_rate=24.2%
+  → geo_level_1=14 interaction features
+    Reason: dangerous_miss_rate=99.5%, error_rate=27.1%
+  → geo_level_1=0 interaction features
+    Reason: dangerous_miss_rate=97.0%, error_rate=23.9%
+
+Priority 2 (feature slices with dangerous_miss > 30%):
+  → land_surface_condition=n (normal) on run_001: dangerous_miss=40.4%, n=28423
+  → land_surface_condition=o (obstacle (trees, rocks, etc.)) on run_001: dangerous_miss=36.0%, n=6693
+  → land_surface_condition=t (tilted / sloped terrain) on run_001: dangerous_miss=35.9%, n=173364
+  → foundation_type=i (rocky or sandy soil) on run_001: dangerous_miss=87.4%, n=8402
+  → foundation_type=r (reinforced mat / slab) on run_001: dangerous_miss=35.1%, n=175408
+  → foundation_type=u (stiff mat / slab) on run_001: dangerous_miss=51.5%, n=11370
+  → foundation_type=w (weak rock) on run_001: dangerous_miss=91.1%, n=12168
+  → roof_type=n (normal) on run_001: dangerous_miss=37.6%, n=146328
+
+Additional ideas:
+  → geo_1_enc × foundation_type one-hot interactions
+  → superstructure count + dominant material type
+  → age × height_percentage (tall old buildings)
+  → grade-3 recall gap: run_001=0.635 run_002=0.637
