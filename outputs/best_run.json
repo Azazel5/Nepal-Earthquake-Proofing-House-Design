@@ -1,0 +1,8 @@
+{
+  "best_cv_run": "run_001",
+  "best_cv_score": 0.7417,
+  "best_public_run": "run_001",
+  "best_public_score": 0.737,
+  "recommended_run": "run_002",
+  "recommendation": "submit run_002"
+}

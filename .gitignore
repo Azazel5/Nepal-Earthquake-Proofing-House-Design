@@ -221,3 +221,10 @@ data/
 # Model artifacts (encoders, scalers, trained classifiers)
 *.pkl
 *.db
+
+# Run outputs (tracked: metadata.json, cv_scores.json, params.json per run)
+runs/*/model.pkl
+runs/*/submission.csv
+
+# Optuna SQLite study (large binary)
+outputs/optuna/*.db

@@ -19,10 +19,9 @@ from category_encoders.wrapper import NestedCVWrapper
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 
-ROOT = Path(__file__).resolve().parents[1]
+from run_manager import PREPROCESSING_DIR, PROCESSED_DIR, ROOT
+
 DATA_DIR = ROOT / "data" / "driven_data"
-PROCESSED_DIR = ROOT / "data" / "processed"
-PREPROCESSING_DIR = ROOT / "models" / "preprocessing"
 
 GEO_COLS = ["geo_level_1_id", "geo_level_2_id", "geo_level_3_id"]
 GEO_ENC_COLS = ["geo_1_enc", "geo_2_enc", "geo_3_enc"]
