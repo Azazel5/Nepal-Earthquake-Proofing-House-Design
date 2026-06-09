@@ -155,6 +155,10 @@ _BUILDERS = {
 # Which models use an eval_set during fold fitting
 _USES_EVAL = {"lgbm", "xgb", "catboost"}
 
+# XGBoost rejects labels outside [0, n_classes-1]; shift y by -1 before fitting
+# and shift model.classes_ back by +1 before calling align_proba.
+_LABEL_SHIFT = {"xgb"}
+
 
 def _fit_fold(name: str, model: Any, X_tr, y_tr, X_val, y_val) -> None:
     """Fit one fold, dispatching eval-set handling per model family."""
@@ -192,12 +196,23 @@ def _get_best_iter(name: str, model: Any) -> int | None:
 def align_proba(proba: np.ndarray, classes: np.ndarray) -> np.ndarray:
     """Map predict_proba output to fixed columns [P(grade=1), P(grade=2), P(grade=3)].
 
-    Handles any class ordering returned by the model.
+    `classes` must already be in grade-label space (1/2/3), not 0-indexed.
+    Use _grade_classes(name, model) rather than model.classes_ directly.
     """
     out = np.zeros((len(proba), 3), dtype=np.float64)
     for j, cls in enumerate(classes):
         out[:, int(cls) - 1] = proba[:, j]
     return out
+
+
+def _grade_classes(name: str, model: Any) -> np.ndarray:
+    """Return model classes in grade-label space (1/2/3).
+
+    XGBoost is trained on shifted labels [0,1,2]; add 1 to recover grade labels.
+    All other models are trained directly on [1,2,3].
+    """
+    classes = np.array(model.classes_)
+    return classes + 1 if name in _LABEL_SHIFT else classes
 
 
 # ── Main CV loop ──────────────────────────────────────────────────────────────
@@ -222,6 +237,9 @@ def train_model_cv(
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
     n_train, n_test = len(y), len(X_test)
 
+    # XGBoost requires 0-indexed labels; shift here and recover via _grade_classes.
+    y_fit = y - 1 if name in _LABEL_SHIFT else y
+
     oof_proba = np.zeros((n_train, 3), dtype=np.float64)
     test_probas: list[np.ndarray] = []
     scores: list[float] = []
@@ -229,7 +247,7 @@ def train_model_cv(
 
     for fold, (tr_idx, val_idx) in enumerate(skf.split(X, y), start=1):
         X_tr, X_val = X.iloc[tr_idx], X.iloc[val_idx]
-        y_tr, y_val = y[tr_idx], y[val_idx]
+        y_tr, y_val = y_fit[tr_idx], y_fit[val_idx]
 
         model = _BUILDERS[name]()
         _fit_fold(name, model, X_tr, y_tr, X_val, y_val)
@@ -238,13 +256,14 @@ def train_model_cv(
         if bi is not None:
             best_iters.append(bi)
 
-        val_proba = align_proba(model.predict_proba(X_val), model.classes_)
+        grade_cls = _grade_classes(name, model)
+        val_proba = align_proba(model.predict_proba(X_val), grade_cls)
         oof_proba[val_idx] = val_proba
 
-        test_probas.append(align_proba(model.predict_proba(X_test), model.classes_))
+        test_probas.append(align_proba(model.predict_proba(X_test), grade_cls))
 
         val_pred = np.array(GRADES)[np.argmax(val_proba, axis=1)]
-        f1 = f1_score(y_val, val_pred, average="micro", labels=GRADES)
+        f1 = f1_score(y[val_idx], val_pred, average="micro", labels=GRADES)
         scores.append(f1)
         print(f"    fold {fold}/{n_splits}: micro_F1={f1:.4f}")
 
@@ -264,7 +283,8 @@ def train_full_model(name: str, X: pd.DataFrame, y: np.ndarray, best_iter: int |
         model = _BUILDERS[name](n_iter=best_iter, with_es=False)
     else:
         model = _BUILDERS[name](n_iter=best_iter)
-    model.fit(X, y)
+    y_fit = y - 1 if name in _LABEL_SHIFT else y
+    model.fit(X, y_fit)
     return model
 
 
