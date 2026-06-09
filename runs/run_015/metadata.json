@@ -1,0 +1,41 @@
+{
+  "run_id": "run_015",
+  "timestamp": "2026-06-09T21:11:27.701701+00:00",
+  "description": "XGBoost on full 260k / run_012 191-feature matrix",
+  "model_type": "XGBoost",
+  "objective": "multiclass",
+  "feature_set": "embedded_191_features_260k",
+  "n_features": 191,
+  "params": {
+    "objective": "multi:softprob",
+    "num_class": 3,
+    "n_estimators": 2000,
+    "learning_rate": 0.05,
+    "max_depth": 8,
+    "subsample": 0.7,
+    "colsample_bytree": 0.6,
+    "min_child_weight": 3,
+    "reg_alpha": 0.1,
+    "reg_lambda": 1.0,
+    "n_jobs": -1,
+    "random_state": 42,
+    "eval_metric": "mlogloss",
+    "verbosity": 0,
+    "early_stopping_rounds": 50
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7574299421163603,
+  "cv_std": 0.0021202594784344125,
+  "cv_scores_per_fold": [
+    0.7570844765065904,
+    0.7555065234075211,
+    0.7600537221795856,
+    0.7591519570222564,
+    0.7553530314658481
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}

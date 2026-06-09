@@ -1,0 +1,36 @@
+{
+  "run_id": "run_014",
+  "timestamp": "2026-06-09T21:05:55.637694+00:00",
+  "description": "CatBoost on full 260k / run_012 191-feature matrix",
+  "model_type": "CatBoost",
+  "objective": "multiclass",
+  "feature_set": "embedded_191_features_260k",
+  "n_features": 191,
+  "params": {
+    "iterations": 2000,
+    "learning_rate": 0.05,
+    "depth": 8,
+    "l2_leaf_reg": 3,
+    "loss_function": "MultiClass",
+    "eval_metric": "Accuracy",
+    "random_seed": 42,
+    "verbose": 0,
+    "early_stopping_rounds": 50,
+    "thread_count": -1
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7444829573542513,
+  "cv_std": 0.0020784755100343986,
+  "cv_scores_per_fold": [
+    0.7413134820897527,
+    0.7449923254029164,
+    0.7465272448196469,
+    0.7459324635456639,
+    0.743649270913277
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}

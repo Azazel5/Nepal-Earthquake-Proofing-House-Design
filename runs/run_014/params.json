@@ -1,0 +1,12 @@
+{
+  "iterations": 2000,
+  "learning_rate": 0.05,
+  "depth": 8,
+  "l2_leaf_reg": 3,
+  "loss_function": "MultiClass",
+  "eval_metric": "Accuracy",
+  "random_seed": 42,
+  "verbose": 0,
+  "early_stopping_rounds": 50,
+  "thread_count": -1
+}
