@@ -1,0 +1,10 @@
+{
+  "base_models": [
+    "lgbm",
+    "xgb",
+    "catboost",
+    "et",
+    "hgb"
+  ],
+  "cv_folds": 5
+}

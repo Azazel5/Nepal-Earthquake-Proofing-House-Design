@@ -1,0 +1,28 @@
+{
+  "run_id": "run_005",
+  "timestamp": "2026-06-09T13:58:11.592201+00:00",
+  "description": "Ensemble base: LGBM+XGB+CatBoost+ET+HGB on run_003 features",
+  "model_type": "ensemble_base",
+  "objective": "multiclass",
+  "feature_set": "embedded_192_features",
+  "n_features": 191,
+  "params": {
+    "base_models": [
+      "lgbm",
+      "xgb",
+      "catboost",
+      "et",
+      "hgb"
+    ],
+    "cv_folds": 5
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": null,
+  "cv_std": null,
+  "cv_scores_per_fold": null,
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}
