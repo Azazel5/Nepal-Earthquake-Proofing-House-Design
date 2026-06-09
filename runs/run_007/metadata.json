@@ -1,0 +1,44 @@
+{
+  "run_id": "run_007",
+  "timestamp": "2026-06-09T15:01:00.981660+00:00",
+  "description": "Stacked ensemble (logreg meta) over run_005",
+  "model_type": "ensemble_stack_logreg",
+  "objective": "multiclass",
+  "feature_set": "oof_proba_stacking",
+  "n_features": 10,
+  "params": {
+    "base_run_id": "run_005",
+    "meta_model": "logreg",
+    "base_models": [
+      "catboost",
+      "et",
+      "hgb",
+      "lgbm",
+      "xgb"
+    ]
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7612576745970836,
+  "cv_std": 0.001736632640494969,
+  "cv_scores_per_fold": [
+    0.7585619723714505,
+    0.7605765541059094,
+    0.7622553722179586,
+    0.7619435917114351,
+    0.7629508825786646
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Stacker on OOF proba from run_005",
+  "blend_oof_f1": 0.7568303914044513,
+  "primary_submission": "stacked",
+  "stacker_scores_per_fold": [
+    0.7585619723714505,
+    0.7605765541059094,
+    0.7622553722179586,
+    0.7619435917114351,
+    0.7629508825786646
+  ]
+}

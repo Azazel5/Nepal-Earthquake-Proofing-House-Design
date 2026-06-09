@@ -1,0 +1,11 @@
+{
+  "base_run_id": "run_005",
+  "meta_model": "logreg",
+  "base_models": [
+    "catboost",
+    "et",
+    "hgb",
+    "lgbm",
+    "xgb"
+  ]
+}

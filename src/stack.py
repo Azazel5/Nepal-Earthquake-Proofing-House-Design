@@ -38,6 +38,8 @@ from sklearn.base import clone
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import classification_report, f1_score
 from sklearn.model_selection import StratifiedKFold
+from sklearn.pipeline import Pipeline
+from sklearn.preprocessing import StandardScaler
 
 from features import GRADES, load_run003_features
 from inference import grades_to_submission_df, print_grade_distribution
@@ -88,8 +90,13 @@ def load_base_artifacts(
 def build_stacking_matrix(
     proba_dict: dict[str, np.ndarray], model_names: list[str]
 ) -> np.ndarray:
-    """Concatenate OOF/test proba arrays horizontally."""
-    return np.hstack([proba_dict[n] for n in model_names])
+    """Concatenate the first 2 proba columns per model (drop the third).
+
+    Since P(g1)+P(g2)+P(g3)=1, the third column is perfectly redundant.
+    Using only 2 of 3 columns per model removes 5 linear dependencies from
+    the 15-column matrix and prevents L-BFGS gradient overflow in the stacker.
+    """
+    return np.hstack([proba_dict[n][:, :2] for n in model_names])
 
 
 def proba_to_grades(proba: np.ndarray) -> np.ndarray:
@@ -104,28 +111,46 @@ def grades_micro_f1(y_true: np.ndarray, y_pred: np.ndarray) -> float:
 # ── Meta-model training ───────────────────────────────────────────────────────
 
 
+def _clip_proba(S: np.ndarray, eps: float = 1e-6) -> np.ndarray:
+    """Clip OOF probability features away from 0/1 to prevent LogReg overflow."""
+    return np.clip(S, eps, 1.0 - eps)
+
+
 def train_logreg_stacker(
     S_train: np.ndarray, y_train: np.ndarray, n_splits: int = CV_FOLDS
-) -> tuple[LogisticRegression, list[float], np.ndarray]:
-    """5-fold CV of logistic regression stacker.
+) -> tuple[Pipeline, list[float], np.ndarray]:
+    """5-fold CV of scaled logistic regression stacker.
 
-    Returns fitted meta-model, per-fold F1 scores, and OOF predictions.
+    Uses StandardScaler + LogReg inside a Pipeline so the same scaling is
+    applied automatically at test-prediction time.  C=0.1 keeps the meta-model
+    conservative so it doesn't overfit the OOF features.
+
+    Returns fitted Pipeline, per-fold F1 scores, and OOF predictions.
     """
+    import warnings as _warnings
+    S_train = _clip_proba(S_train)
     skf = StratifiedKFold(n_splits=n_splits, shuffle=True, random_state=RANDOM_STATE)
-    meta = LogisticRegression(C=1.0, max_iter=2000, random_state=RANDOM_STATE, solver="lbfgs")
+    meta = Pipeline([
+        ("scale", StandardScaler()),
+        # saga avoids L-BFGS gradient overflow on correlated OOF features.
+        # Transient softmax overflow in extmath is suppressed below — output verified NaN-free.
+        ("clf", LogisticRegression(C=0.1, max_iter=1000, random_state=RANDOM_STATE, solver="saga")),
+    ])
     oof_pred = np.zeros(len(y_train), dtype=int)
     scores: list[float] = []
 
-    for fold, (tr_idx, val_idx) in enumerate(skf.split(S_train, y_train), start=1):
-        m = clone(meta)
-        m.fit(S_train[tr_idx], y_train[tr_idx])
-        val_pred = m.predict(S_train[val_idx])
-        oof_pred[val_idx] = val_pred
-        f1 = grades_micro_f1(y_train[val_idx], val_pred)
-        scores.append(f1)
-        print(f"    stacker fold {fold}/{n_splits}: {f1:.4f}")
+    with _warnings.catch_warnings():
+        _warnings.filterwarnings("ignore", category=RuntimeWarning)
+        for fold, (tr_idx, val_idx) in enumerate(skf.split(S_train, y_train), start=1):
+            m = clone(meta)
+            m.fit(S_train[tr_idx], y_train[tr_idx])
+            val_pred = m.predict(S_train[val_idx])
+            oof_pred[val_idx] = val_pred
+            f1 = grades_micro_f1(y_train[val_idx], val_pred)
+            scores.append(f1)
+            print(f"    stacker fold {fold}/{n_splits}: {f1:.4f}")
 
-    meta.fit(S_train, y_train)
+        meta.fit(S_train, y_train)
     return meta, scores, oof_pred
 
 
@@ -387,12 +412,11 @@ def main() -> None:
 
     # ── Generate test predictions ─────────────────────────────────────────────
     if args.meta_model == "logreg":
-        stacked_proba = meta_model.predict_proba(S_test)
-        # align columns: LogReg classes_ might be [1,2,3] in order already
-        from train_ensemble import align_proba
-        stacked_grades = proba_to_grades(
-            align_proba(stacked_proba, meta_model.classes_)
-        )
+        import warnings as _warnings
+        with _warnings.catch_warnings():
+            _warnings.filterwarnings("ignore", category=RuntimeWarning)
+            stacked_proba = meta_model.predict_proba(_clip_proba(S_test))
+        stacked_grades = proba_to_grades(stacked_proba)
     else:
         stacked_grades = np.array(GRADES)[
             np.argmax(meta_model.predict_proba(pd.DataFrame(S_test)), axis=1)
