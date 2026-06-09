@@ -264,6 +264,8 @@ def train_embedding_network(
     y: np.ndarray,
     n_emb: dict[str, int],
     device: torch.device,
+    use_class_weights: bool = True,
+    save_dir: Path | None = None,
 ) -> tuple[NepalEmbeddingNet, dict]:
     """Train with 80/20 monitor split; early stopping on val micro F1."""
     y_idx = y - 1
@@ -282,9 +284,14 @@ def train_embedding_network(
         labels = torch.tensor(y_idx[idxs], dtype=torch.long, device=device)
         return cats, nums, bins, labels
 
-    counts = np.bincount(y_idx, minlength=3)
-    weights = len(y_idx) / (3.0 * counts.astype(float))
-    criterion = nn.CrossEntropyLoss(weight=torch.tensor(weights, dtype=torch.float32, device=device))
+    if use_class_weights:
+        counts = np.bincount(y_idx, minlength=3)
+        cw = len(y_idx) / (3.0 * counts.astype(float))
+        criterion = nn.CrossEntropyLoss(weight=torch.tensor(cw, dtype=torch.float32, device=device))
+        print("  Loss: CrossEntropyLoss with inverse-frequency class weights")
+    else:
+        criterion = nn.CrossEntropyLoss()
+        print("  Loss: CrossEntropyLoss (unweighted — optimises accuracy / micro F1 directly)")
 
     model = NepalEmbeddingNet(
         n_emb, EMBED_COLS, train_num.shape[1], train_bin.shape[1]
@@ -335,8 +342,9 @@ def train_embedding_network(
             best_epoch = epoch
             best_state = {k: v.cpu().clone() for k, v in model.state_dict().items()}
             stale = 0
-            EMBED_DIR.mkdir(parents=True, exist_ok=True)
-            torch.save(model.state_dict(), EMBED_DIR / "embedding_network.pt")
+            _ckpt_dir = save_dir if save_dir is not None else EMBED_DIR
+            _ckpt_dir.mkdir(parents=True, exist_ok=True)
+            torch.save(model.state_dict(), _ckpt_dir / "embedding_network.pt")
         else:
             stale += 1
             if stale >= PATIENCE:

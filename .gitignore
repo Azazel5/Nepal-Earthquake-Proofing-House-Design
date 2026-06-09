@@ -234,3 +234,4 @@ runs/evaluation/*.png
 runs/evaluation/oof_*.npy
 runs/evaluation/proba_*.npy
 *.npy
+*.pt
