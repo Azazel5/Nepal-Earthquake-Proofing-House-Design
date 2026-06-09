@@ -163,6 +163,7 @@ def train_multiclass_run(
     *,
     x_train_path: Path | None = None,
     x_test_path: Path | None = None,
+    y_train_path: Path | None = None,
     description: str | None = None,
     feature_set: str | None = None,
 ) -> str:
@@ -172,8 +173,9 @@ def train_multiclass_run(
     cv_path = run_dir / "cv_scores.json"
 
     x_train_file = x_train_path or (PROCESSED_DIR / "X_train.csv")
+    y_train_file = y_train_path or (PROCESSED_DIR / "y_train_multiclass.csv")
     X_train = pd.read_csv(x_train_file)
-    y_train = pd.read_csv(PROCESSED_DIR / "y_train_multiclass.csv")["damage_grade"].to_numpy()
+    y_train = pd.read_csv(y_train_file)["damage_grade"].to_numpy()
 
     fs = feature_set or (
         EMBEDDED_FEATURE_SET if x_train_path else FEATURE_SET
@@ -287,6 +289,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--run-id", type=str, default=None, help="e.g. run_003")
     parser.add_argument("--x-train", type=str, default=None, help="Path to X_train CSV")
     parser.add_argument("--x-test", type=str, default=None, help="Path to X_test CSV")
+    parser.add_argument("--y-train", type=str, default=None, help="Path to y_train CSV (damage_grade column)")
     parser.add_argument("--description", type=str, default=None, help="Run description")
     return parser.parse_args()
 
@@ -306,6 +309,7 @@ def main() -> None:
             run_id,
             x_train_path=Path(args.x_train) if args.x_train else None,
             x_test_path=Path(args.x_test) if args.x_test else None,
+            y_train_path=Path(args.y_train) if args.y_train else None,
             description=args.description,
         )
         rm.print_all_runs()
