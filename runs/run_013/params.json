@@ -1,0 +1,16 @@
+{
+  "hidden": 256,
+  "n_blocks": 3,
+  "dropout": 0.25,
+  "lr_body": 0.0005,
+  "lr_embed": 0.0001,
+  "weight_decay": 0.0001,
+  "label_smoothing": 0.05,
+  "batch_size": 2048,
+  "max_epochs": 100,
+  "patience": 15,
+  "num_bins": 32,
+  "bin_embed_dim": 8,
+  "geo3_embed_dropout": 0.1,
+  "warm_start": "run_012_unweighted"
+}

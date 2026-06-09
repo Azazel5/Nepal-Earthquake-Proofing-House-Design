@@ -1,0 +1,40 @@
+{
+  "run_id": "run_013",
+  "timestamp": "2026-06-09T20:26:57.472536+00:00",
+  "description": "ResNet MLP end-to-end, run_012 unweighted embed warm-start, full 260k",
+  "model_type": "NeuralNet",
+  "objective": "multiclass",
+  "feature_set": "entity_embeds+numeric_bins+tabular_51",
+  "n_features": 231,
+  "params": {
+    "hidden": 256,
+    "n_blocks": 3,
+    "dropout": 0.25,
+    "lr_body": 0.0005,
+    "lr_embed": 0.0001,
+    "weight_decay": 0.0001,
+    "label_smoothing": 0.05,
+    "batch_size": 2048,
+    "max_epochs": 100,
+    "patience": 15,
+    "num_bins": 32,
+    "bin_embed_dim": 8,
+    "geo3_embed_dropout": 0.1,
+    "warm_start": "run_012_unweighted"
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.742667913450641,
+  "cv_std": 0.0015627915098062246,
+  "cv_scores_per_fold": [
+    0.7417547629554306,
+    0.7424597083653108,
+    0.7440330007674597,
+    0.7444167306216424,
+    0.7406753645433615
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Warm-start entity embeds from models/embedding_unweighted/. Numeric bins (32 bins, 8-dim embed). geo3 embedding dropout 10%."
+}
