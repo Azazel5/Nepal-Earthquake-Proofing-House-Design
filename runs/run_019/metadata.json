@@ -45,8 +45,8 @@
     0.7522448196469685,
     0.7509401381427475
   ],
-  "public_leaderboard_score": null,
-  "submitted": false,
-  "submission_date": null,
-  "notes": "Compared variants: {'full': 0.7421, 'embed_only': 0.7528}"
+  "public_leaderboard_score": 0.752,
+  "submitted": true,
+  "submission_date": "2026-06-10",
+  "notes": "New public SOTA (0.7520). PCA embed-only k=80 + LGBM. Gap vs CV -0.0008."
 }

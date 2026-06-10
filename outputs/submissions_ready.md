@@ -10,8 +10,8 @@ After each upload, record the public score:
 
 | Run | CV micro F1 | Submission path | Notes |
 |-----|-------------|-----------------|-------|
-| run_018 | 0.7512 | `runs/run_018/submission.csv` | MLP rebuild; blend gain +0.0008 (below 0.7604 threshold) |
-| run_019 | 0.7528 | `runs/run_019/submission.csv` | PCA embed-only k=80 + LGBM |
+| run_018 | 0.7512 | `runs/run_018/submission.csv` | **Submitted — public 0.7477 (flop)** |
+| run_019 | 0.7528 | `runs/run_019/submission.csv` | **Submitted — public 0.7520 (new SOTA)** |
 | run_020 | 0.7446 | `runs/run_020/submission.csv` | AE latent 48-d + geo_rates + LGBM (underperformed) |
 | run_021 | 0.6907 | `runs/run_021/submission.csv` | Fine-tuned AE classifier (skip for LB) |
 

@@ -54,8 +54,8 @@
     0.7516308518802763,
     0.7496546431312356
   ],
-  "public_leaderboard_score": null,
-  "submitted": false,
-  "submission_date": null,
-  "notes": "Trained from scratch (no warm-start). Geo rates kept as PLE inputs per raw-feature-view experiment finding (trees re-derive them anyway)."
+  "public_leaderboard_score": 0.7477,
+  "submitted": true,
+  "submission_date": "2026-06-10",
+  "notes": "Public 0.7477 \u2014 flop vs CV 0.7512 (-0.0035). MLP rebuild not competitive on LB."
 }

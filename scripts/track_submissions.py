@@ -26,9 +26,9 @@ def main() -> None:
     rm = RunManager()
 
     if args.run_ids:
-        if len(args.scores) != len(args.run_ids):
+        if len(args.score) != len(args.run_ids):
             sys.exit("Provide one --score per --run-id")
-        for rid, score in zip(args.run_ids, args.scores):
+        for rid, score in zip(args.run_ids, args.score):
             rm.update_public_score(rid, score)
             print(f"Updated {rid}: public={score:.4f}")
 
