@@ -227,7 +227,7 @@ def lgbm_on_latent(
     for fold, (tr, va) in enumerate(skf.split(X_df, y), start=1):
         if fold > n_folds:
             break
-        model = LGBMClassifier(**TRIAL_66_PARAMS)
+        model = LGBMClassifier(**{**TRIAL_66_PARAMS, "n_jobs": 1})
         model.fit(
             X_df.iloc[tr], y[tr],
             eval_set=[(X_df.iloc[va], y[va])],
@@ -247,9 +247,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--quick", action="store_true")
     parser.add_argument("--skip-pretrain", action="store_true")
+    parser.add_argument("--force-pretrain", action="store_true", help="Ignore saved AE checkpoint")
     args = parser.parse_args()
     if args.quick:
         args.skip_pretrain = False
+    if args.force_pretrain and AE_CKPT.exists():
+        AE_CKPT.unlink()
     t0 = time.time()
     set_seed(RANDOM_STATE)
     device = get_device()

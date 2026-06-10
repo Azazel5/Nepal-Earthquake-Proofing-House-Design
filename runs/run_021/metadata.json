@@ -1,0 +1,38 @@
+{
+  "run_id": "run_021",
+  "timestamp": "2026-06-10T19:10:32.529870+00:00",
+  "description": "Fine-tuned run_020 AE encoder + classifier head, 3-seed averaged, 5-fold",
+  "model_type": "NeuralNet",
+  "objective": "multiclass",
+  "feature_set": "ae_transfer_latent48",
+  "n_features": null,
+  "params": {
+    "latent_dim": 48,
+    "warmup_epochs": 5,
+    "lr_head": 0.001,
+    "lr_encoder": 0.0003,
+    "max_epochs": 60,
+    "patience": 12,
+    "seeds": [
+      42,
+      142,
+      242
+    ],
+    "pretrained": "/Users/shubmeister/Desktop/Nepal-Earthquake-Proofing-House-Design/models/tabular_ae_run020.pt"
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.6906995913326013,
+  "cv_std": 0.0038285520001699967,
+  "cv_scores_per_fold": [
+    0.6864987241227144,
+    0.6964888718342287,
+    0.6922294704528013,
+    0.6895049884881044,
+    0.6887759017651574
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Transfer from run_020 TabularAE checkpoint"
+}

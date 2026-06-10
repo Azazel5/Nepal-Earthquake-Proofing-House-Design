@@ -74,19 +74,31 @@ def _transform_pca(
     n_components: int,
 ) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     scaler = StandardScaler()
-    pca = PCA(n_components=n_components, random_state=RANDOM_STATE)
-    z_tr = pca.fit_transform(scaler.fit_transform(X_tr[pca_cols]))
-    z_va = pca.transform(scaler.transform(X_va[pca_cols]))
-    z_te = pca.transform(scaler.transform(X_te[pca_cols]))
+    pca = PCA(n_components=n_components, random_state=RANDOM_STATE, svd_solver="randomized")
+
+    def _scale_train(df: pd.DataFrame) -> np.ndarray:
+        arr = scaler.fit_transform(df[pca_cols].to_numpy(dtype=np.float64))
+        return np.clip(np.nan_to_num(arr, nan=0.0, posinf=0.0, neginf=0.0), -10.0, 10.0)
+
+    def _scale_apply(df: pd.DataFrame) -> np.ndarray:
+        arr = scaler.transform(df[pca_cols].to_numpy(dtype=np.float64))
+        return np.clip(np.nan_to_num(arr, nan=0.0, posinf=0.0, neginf=0.0), -10.0, 10.0)
+
+    z_tr = pca.fit_transform(_scale_train(X_tr))
+    z_va = pca.transform(_scale_apply(X_va))
+    z_te = pca.transform(_scale_apply(X_te))
 
     pca_names = [f"pca_{i}" for i in range(n_components)]
-    df_tr = pd.DataFrame(z_tr, columns=pca_names, index=X_tr.index)
-    df_va = pd.DataFrame(z_va, columns=pca_names, index=X_va.index)
-    df_te = pd.DataFrame(z_te, columns=pca_names, index=X_te.index)
     if pass_cols:
-        df_tr = pd.concat([df_tr, X_tr[pass_cols].reset_index(drop=True)], axis=1)
-        df_va = pd.concat([df_va, X_va[pass_cols].reset_index(drop=True)], axis=1)
-        df_te = pd.concat([df_te, X_te[pass_cols].reset_index(drop=True)], axis=1)
+        z_tr = np.hstack([z_tr, X_tr[pass_cols].to_numpy()])
+        z_va = np.hstack([z_va, X_va[pass_cols].to_numpy()])
+        z_te = np.hstack([z_te, X_te[pass_cols].to_numpy()])
+        col_names = pca_names + pass_cols
+    else:
+        col_names = pca_names
+    df_tr = pd.DataFrame(z_tr, columns=col_names)
+    df_va = pd.DataFrame(z_va, columns=col_names)
+    df_te = pd.DataFrame(z_te, columns=col_names)
     return df_tr, df_va, df_te
 
 
@@ -144,9 +156,13 @@ def run_pca_cv(
     skf = StratifiedKFold(n_splits=CV_FOLDS, shuffle=True, random_state=RANDOM_STATE)
     splits = list(skf.split(X, y))
     tr_idx, va_idx = splits[0]
-    print(f"\n── {variant}: selecting k on fold 1 ──")
-    k = _pick_k(X, y, X_test, pca_cols, pass_cols, tr_idx, va_idx)
-    print(f"  Selected k={k}")
+    if quick:
+        k = min(48, len(pca_cols) - 1)
+        print(f"\n── {variant}: quick mode k={k} ──")
+    else:
+        print(f"\n── {variant}: selecting k on fold 1 ──")
+        k = _pick_k(X, y, X_test, pca_cols, pass_cols, tr_idx, va_idx)
+        print(f"  Selected k={k}")
 
     oof = np.zeros((len(y), 3), dtype=np.float32)
     test_folds: list[np.ndarray] = []
@@ -214,7 +230,8 @@ def main() -> None:
     print(f"Features: {X.shape[1]}  train: {len(y):,}")
 
     results: dict[str, tuple] = {}
-    for variant in ("full", "embed_only"):
+    variants = ("full",) if args.quick else ("full", "embed_only")
+    for variant in variants:
         oof, test_p, scores, k = run_pca_cv(variant, X, y, X_test, quick=args.quick)
         mean_f1 = float(np.mean(scores))
         std_f1 = float(np.std(scores, ddof=1)) if len(scores) > 1 else 0.0

@@ -1,0 +1,52 @@
+{
+  "run_id": "run_019",
+  "timestamp": "2026-06-10T18:46:22.612754+00:00",
+  "description": "OOF PCA (embed_only, k=80) on run_012 features + LGBM trial-66",
+  "model_type": "LightGBM",
+  "objective": "multiclass",
+  "feature_set": "pca_embed_only_k80+lgbm",
+  "n_features": 131,
+  "params": {
+    "pca_variant": "embed_only",
+    "n_components": 80,
+    "k_grid": [
+      32,
+      48,
+      64,
+      80
+    ],
+    "objective": "multiclass",
+    "num_class": 3,
+    "metric": "multi_logloss",
+    "boosting_type": "gbdt",
+    "num_leaves": 200,
+    "max_depth": 11,
+    "min_child_samples": 35,
+    "learning_rate": 0.022600692673331986,
+    "n_estimators": 1909,
+    "feature_fraction": 0.6437872058657726,
+    "bagging_fraction": 0.6858442495559679,
+    "bagging_freq": 1,
+    "reg_alpha": 5.577336583845032e-07,
+    "reg_lambda": 2.4266765087309108e-08,
+    "min_split_gain": 0.3279274666048547,
+    "n_jobs": -1,
+    "random_state": 42,
+    "verbose": -1
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7528213586417802,
+  "cv_std": 0.0012411522370317913,
+  "cv_scores_per_fold": [
+    0.7539379520730608,
+    0.7532233307751343,
+    0.7537605525709901,
+    0.7522448196469685,
+    0.7509401381427475
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Compared variants: {'full': 0.7421, 'embed_only': 0.7528}"
+}

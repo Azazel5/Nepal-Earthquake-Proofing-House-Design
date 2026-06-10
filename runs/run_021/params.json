@@ -1,0 +1,14 @@
+{
+  "latent_dim": 48,
+  "warmup_epochs": 5,
+  "lr_head": 0.001,
+  "lr_encoder": 0.0003,
+  "max_epochs": 60,
+  "patience": 12,
+  "seeds": [
+    42,
+    142,
+    242
+  ],
+  "pretrained": "/Users/shubmeister/Desktop/Nepal-Earthquake-Proofing-House-Design/models/tabular_ae_run020.pt"
+}
