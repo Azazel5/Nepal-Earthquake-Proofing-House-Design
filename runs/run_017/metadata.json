@@ -1,0 +1,38 @@
+{
+  "run_id": "run_017",
+  "timestamp": "2026-06-10T15:51:48.910622+00:00",
+  "description": "CatBoost on raw-categorical 38-feature view, ordered TS for geo (no precomputed rates) \u2014 ensemble decorrelation",
+  "model_type": "CatBoost",
+  "objective": "multiclass",
+  "feature_set": "raw_categorical_38",
+  "n_features": 38,
+  "params": {
+    "loss_function": "MultiClass",
+    "eval_metric": "Accuracy",
+    "iterations": 2000,
+    "depth": 8,
+    "learning_rate": 0.12077532307464126,
+    "l2_leaf_reg": 2.1731885645782896,
+    "random_strength": 3.8678024044744825,
+    "one_hot_max_size": 10,
+    "random_seed": 42,
+    "verbose": 0,
+    "early_stopping_rounds": 50,
+    "thread_count": -1
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7480017363369135,
+  "cv_std": 0.0015296888570871592,
+  "cv_scores_per_fold": [
+    0.7475106003338385,
+    0.7490214888718342,
+    0.7483883346124328,
+    0.7494819646968535,
+    0.7456062931696086
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}

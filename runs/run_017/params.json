@@ -1,0 +1,14 @@
+{
+  "loss_function": "MultiClass",
+  "eval_metric": "Accuracy",
+  "iterations": 2000,
+  "depth": 8,
+  "learning_rate": 0.12077532307464126,
+  "l2_leaf_reg": 2.1731885645782896,
+  "random_strength": 3.8678024044744825,
+  "one_hot_max_size": 10,
+  "random_seed": 42,
+  "verbose": 0,
+  "early_stopping_rounds": 50,
+  "thread_count": -1
+}
