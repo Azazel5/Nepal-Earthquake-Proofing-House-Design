@@ -14,6 +14,7 @@ After each upload, record the public score:
 | run_019 | 0.7528 | `runs/run_019/submission.csv` | **Submitted — public 0.7520 (new SOTA)** |
 | run_020 | 0.7446 | `runs/run_020/submission.csv` | AE latent 48-d + geo_rates + LGBM (underperformed) |
 | run_021 | 0.6907 | `runs/run_021/submission.csv` | Fine-tuned AE classifier (skip for LB) |
+| run_022 | 0.7480 | `runs/run_022/submission.csv` | Hybrid PCA numerics k=3 + cat AE 32 + LGBM (below run_019) |
 
 List CV vs public gap after uploads:
 
