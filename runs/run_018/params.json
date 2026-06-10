@@ -1,0 +1,37 @@
+{
+  "hidden": 448,
+  "n_blocks": 3,
+  "dropout": 0.3,
+  "geo_dims": [
+    16,
+    32,
+    32
+  ],
+  "delta2_dropout": 0.05,
+  "delta3_dropout": 0.15,
+  "ple_bins": 48,
+  "ple_embed_dim": 8,
+  "cat_dims": {
+    "foundation_type": 4,
+    "roof_type": 3,
+    "land_surface_condition": 3,
+    "ground_floor_type": 4,
+    "other_floor_type": 3,
+    "position": 3,
+    "plan_configuration": 5,
+    "legal_ownership_status": 3
+  },
+  "lr": 0.001,
+  "wd_other": 0.0001,
+  "wd_delta2": 0.0005,
+  "wd_delta3": 0.001,
+  "label_smoothing": 0.05,
+  "batch_size": 1024,
+  "max_epochs": 80,
+  "patience": 15,
+  "seeds": [
+    42,
+    142,
+    242
+  ]
+}
