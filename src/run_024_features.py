@@ -8,6 +8,7 @@ import joblib
 import numpy as np
 import pandas as pd
 import torch
+from category_encoders import CatBoostEncoder
 from sklearn.preprocessing import LabelEncoder, OneHotEncoder
 from torch.utils.data import DataLoader, TensorDataset
 
@@ -211,6 +212,70 @@ class ShoumikFeatureBuilder:
         numeric = df[NUMERIC_COLS].to_numpy(dtype=np.float32)
         binary = df[self.bin_cols].to_numpy(dtype=np.float32)
         return np.hstack([cat_ohe, geo_raw, geo_dr, geo_ru, numeric, binary]).astype(np.float32)
+
+
+class ShoumikFullFeatureBuilder(ShoumikFeatureBuilder):
+    """run_024 features + OOF-fitted CatBoostEncoder on geo columns (Shoumik XGB notebook)."""
+
+    def __init__(self):
+        super().__init__()
+        self.geo_cb: CatBoostEncoder | None = None
+
+    def fit(
+        self,
+        train: pd.DataFrame,
+        y: np.ndarray,
+        *,
+        log_fn=None,
+    ) -> "ShoumikFullFeatureBuilder":
+        def _log(msg: str) -> None:
+            if log_fn is not None:
+                log_fn(msg)
+
+        _log(f"binary_columns ({len(train):,} rows)")
+        self.bin_cols = binary_columns(train)
+
+        _log("OneHotEncoder.fit (8 categoricals)")
+        self.ohe = OneHotEncoder(drop="first", handle_unknown="ignore", sparse_output=False)
+        self.ohe.fit(train[CAT_COLS].astype(str))
+
+        geo_card = {c: train[c].nunique() for c in GEO_COLS}
+        _log(f"CatBoostEncoder.fit geo cols  cardinality={geo_card}")
+        self.geo_cb = CatBoostEncoder(cols=GEO_COLS)
+        self.geo_cb.fit(train[GEO_COLS], y)
+        _log("CatBoostEncoder.fit done")
+        return self
+
+    def transform(
+        self,
+        df: pd.DataFrame,
+        geo_idx: np.ndarray,
+        geo_dr: np.ndarray,
+        geo_ru: np.ndarray,
+        *,
+        log_fn=None,
+        label: str = "",
+    ) -> np.ndarray:
+        def _log(msg: str) -> None:
+            if log_fn is not None:
+                log_fn(msg)
+
+        assert self.ohe is not None and self.geo_cb is not None
+        prefix = f"{label} " if label else ""
+
+        _log(f"{prefix}OHE transform ({len(df):,} rows)")
+        cat_ohe = self.ohe.transform(df[CAT_COLS].astype(str))
+
+        _log(f"{prefix}CatBoostEncoder transform ({len(df):,} rows)")
+        geo_cb = self.geo_cb.transform(df[GEO_COLS]).to_numpy(dtype=np.float32)
+
+        _log(f"{prefix}hstack features")
+        geo_raw = geo_idx.astype(np.float32)
+        numeric = df[NUMERIC_COLS].to_numpy(dtype=np.float32)
+        binary = df[self.bin_cols].to_numpy(dtype=np.float32)
+        out = np.hstack([cat_ohe, geo_raw, geo_dr, geo_ru, geo_cb, numeric, binary]).astype(np.float32)
+        _log(f"{prefix}done  shape={out.shape}")
+        return out
 
 
 def load_geo_latents() -> tuple[np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray, np.ndarray]:
