@@ -1,0 +1,21 @@
+{
+  "objective": "multi:softprob",
+  "num_class": 3,
+  "eval_metric": "mlogloss",
+  "tree_method": "hist",
+  "random_state": 42,
+  "n_jobs": 1,
+  "learning_rate": 0.01306,
+  "max_depth": 15,
+  "n_estimators": 756,
+  "gamma": 1.37,
+  "min_child_weight": 7,
+  "reg_alpha": 0.018,
+  "reg_lambda": 0.059,
+  "subsample": 0.808,
+  "colsample_bytree": 0.528,
+  "colsample_bylevel": 0.835,
+  "colsample_bynode": 0.564,
+  "geo_dr_latent": 32,
+  "geo_rollup_latent": 16
+}
