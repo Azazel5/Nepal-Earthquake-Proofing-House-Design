@@ -1,0 +1,24 @@
+{
+  "base_run": "run_026",
+  "blend_alpha_run_026": 0.72,
+  "specialist_weight_2v3": 0.28,
+  "recall_boost": 1.35,
+  "lgbm_g23": {
+    "objective": "binary",
+    "metric": "binary_logloss",
+    "boosting_type": "gbdt",
+    "num_leaves": 63,
+    "max_depth": 8,
+    "learning_rate": 0.05,
+    "n_estimators": 800,
+    "min_child_samples": 40,
+    "feature_fraction": 0.8,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "reg_alpha": 0.1,
+    "reg_lambda": 0.1,
+    "n_jobs": 1,
+    "random_state": 42,
+    "verbose": -1
+  }
+}
