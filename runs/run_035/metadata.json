@@ -1,0 +1,40 @@
+{
+  "run_id": "run_035",
+  "timestamp": "2026-06-13T14:21:59.576975+00:00",
+  "description": "Foundation\u00d7geo3 CV-smoothed rates + run_026 retrain (no PL)",
+  "model_type": "ensemble_blend",
+  "objective": "multiclass",
+  "feature_set": "found_geo3_rates+run_024_xgb+run_019_lgbm",
+  "n_features": 195,
+  "params": {
+    "rate_features": [
+      "foundg3_p_grade1",
+      "foundg3_p_grade2",
+      "foundg3_p_grade3",
+      "weak_x_foundg3_p3"
+    ],
+    "laplace_alpha": 5,
+    "blend_alpha_xgb": 0.6477243430074974,
+    "blend_space": "logit",
+    "solo_oof": {
+      "xgb": 0.7550124519859862,
+      "lgbm": 0.7541720868300582,
+      "run_026": 0.7545826761984796
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7564092260050824,
+  "cv_std": 0.0015881378064783746,
+  "cv_scores_per_fold": [
+    0.7557030755357725,
+    0.7579240214888718,
+    0.7566768994627782,
+    0.7576937835763622,
+    0.7540483499616271
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Last live signal hypothesis; precision-safe rate features only."
+}
