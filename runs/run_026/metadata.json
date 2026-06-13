@@ -1,0 +1,47 @@
+{
+  "run_id": "run_026",
+  "timestamp": "2026-06-13T11:22:24.209967+00:00",
+  "description": "OOF blend run_024 Shoumik XGB + run_019 PCA-embed LGBM",
+  "model_type": "ensemble_blend",
+  "objective": "multiclass",
+  "feature_set": "oof_proba_blend",
+  "n_features": null,
+  "params": {
+    "base_runs": [
+      "run_024",
+      "run_019"
+    ],
+    "alpha_run_024": 0.5211870391530081,
+    "weight_run_019": 0.4788129608469919,
+    "blend_space": "proba",
+    "solo_oof": {
+      "run_024": 0.7518198318502232,
+      "run_019": 0.7528213629264662
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7545826741078594,
+  "cv_std": 0.0013615874978134478,
+  "cv_scores_per_fold": [
+    0.7551274917979317,
+    0.7552762854950115,
+    0.7551803530314658,
+    0.7551803530314658,
+    0.7521488871834229
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Both models generalize well on public. Gain vs run_024 +0.0028, vs run_019 +0.0018.",
+  "blend_oof_f1": 0.7545826761984796,
+  "blend_space": "proba",
+  "blend_alpha_run_024": 0.5211870391530081,
+  "weight_run_019": 0.4788129608469919,
+  "solo_oof_run_024": 0.7518198318502232,
+  "solo_oof_run_019": 0.7528213629264662,
+  "gain_vs_run_024": 0.0027628443482564657,
+  "gain_vs_run_019": 0.0017613132720134539,
+  "disagree_rate": 0.05891381844275348,
+  "loss_corr": 0.9555979331541717
+}
