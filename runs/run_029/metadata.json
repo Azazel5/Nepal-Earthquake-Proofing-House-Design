@@ -1,0 +1,47 @@
+{
+  "run_id": "run_029",
+  "timestamp": "2026-06-13T11:51:00.988539+00:00",
+  "description": "OOF blend run_026 (2-way) + run_028 (stacked meta proba)",
+  "model_type": "ensemble_blend",
+  "objective": "multiclass",
+  "feature_set": "oof_proba_blend",
+  "n_features": null,
+  "params": {
+    "base_runs": [
+      "run_026",
+      "run_028"
+    ],
+    "alpha_run_026": 0.4345831683621812,
+    "weight_run_028": 0.5654168316378188,
+    "blend_space": "logit",
+    "solo_oof": {
+      "run_026": 0.7545826761984796,
+      "run_028": 0.7539994090582922
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7544790687405567,
+  "cv_std": 0.0012777559102968618,
+  "cv_scores_per_fold": [
+    0.7546862109322537,
+    0.7552187260168841,
+    0.755199539524175,
+    0.7550652340752111,
+    0.7522256331542594
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Cherry-pick run_026 + run_028. Gain vs run_026 -0.0001.",
+  "blend_oof_f1": 0.7544790695354201,
+  "blend_space": "logit",
+  "blend_alpha_run_026": 0.4345831683621812,
+  "weight_run_028": 0.5654168316378188,
+  "solo_oof_run_026": 0.7545826761984796,
+  "solo_oof_run_028": 0.7539994090582922,
+  "gain_vs_run_026": -0.00010360666305953004,
+  "gain_vs_run_028": 0.0004796604771278856,
+  "disagree_rate": 0.016212524126922,
+  "loss_corr": 0.9725402308718184
+}
