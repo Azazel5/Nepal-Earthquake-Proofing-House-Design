@@ -1,0 +1,73 @@
+{
+  "run_id": "run_027",
+  "timestamp": "2026-06-13T11:30:55.725672+00:00",
+  "description": "OOF 3-way blend run_024 + run_019 + run_025",
+  "model_type": "ensemble_blend",
+  "objective": "multiclass",
+  "feature_set": "oof_proba_blend_3way",
+  "n_features": null,
+  "params": {
+    "base_runs": [
+      "run_024",
+      "run_019",
+      "run_025"
+    ],
+    "weights": {
+      "run_024": 0.45920611707847336,
+      "run_019": 0.48839720604930204,
+      "run_025": 0.052396676872224615
+    },
+    "blend_space": "proba",
+    "solo_oof": {
+      "run_024": 0.7518198318502232,
+      "run_019": 0.7528213629264662,
+      "run_025": 0.750630273866946
+    },
+    "proba_search": {
+      "f1": 0.7545596524955775,
+      "weights": {
+        "run_024": 0.45920611707847336,
+        "run_019": 0.48839720604930204,
+        "run_025": 0.052396676872224615
+      }
+    },
+    "logit_search": {
+      "f1": 0.7545327915088583,
+      "weights": {
+        "run_024": 0.4398398798040493,
+        "run_019": 0.5113291349947406,
+        "run_025": 0.04883098520121001
+      }
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.754559650758346,
+  "cv_std": 0.001231927981558431,
+  "cv_scores_per_fold": [
+    0.7550123750503636,
+    0.7551227935533384,
+    0.7550844205679201,
+    0.7552187260168841,
+    0.7523599386032234
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Extends run_026 with run_025. Gain vs best solo +0.0017.",
+  "blend_oof_f1": 0.7545596524955775,
+  "blend_space": "proba",
+  "weights": {
+    "run_024": 0.45920611707847336,
+    "run_019": 0.48839720604930204,
+    "run_025": 0.052396676872224615
+  },
+  "solo_oof": {
+    "run_024": 0.7518198318502232,
+    "run_019": 0.7528213629264662,
+    "run_025": 0.750630273866946
+  },
+  "gain_vs_best_solo": 0.0017382895691113731,
+  "solo_oof_run_026": 0.7545826761984796,
+  "gain_vs_run_026": -2.3023702902080778e-05
+}
