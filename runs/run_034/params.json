@@ -1,0 +1,21 @@
+{
+  "teacher": "run_026",
+  "pl_tau": 0.85,
+  "pl_mode": "global_tau",
+  "n_pseudo": 29175,
+  "pl_class_counts": {
+    "1": 1411,
+    "2": 18284,
+    "3": 9480
+  },
+  "blend_alpha_xgb": 0.17273443723418844,
+  "blend_space": "proba",
+  "pca_k": 80,
+  "pca_variant": "embed_only",
+  "geo_gate": "PROCEED",
+  "solo_oof": {
+    "xgb": 0.7333893576770618,
+    "lgbm": 0.750964117559027,
+    "run_026": 0.7545826761984796
+  }
+}

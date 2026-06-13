@@ -1,0 +1,43 @@
+{
+  "run_id": "run_032",
+  "timestamp": "2026-06-13T13:03:26.930636+00:00",
+  "description": "run_026 + segment residual specialists, F1-constrained blend",
+  "model_type": "ensemble_segment_residual",
+  "feature_set": "residual_g23_per_segment",
+  "params": {
+    "base_run": "run_026",
+    "segments": [
+      "weak_found",
+      "other_found"
+    ],
+    "boost_w": 0.0,
+    "tau_w": 1.0,
+    "boost_o": 0.0,
+    "tau_o": 1.0,
+    "delta_min": 0.0
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "notes": "Maximize G3 recall with F1 >= run_026 - tolerance.",
+  "cv_mean": 0.7544445343788923,
+  "cv_std": 0.001338197585695727,
+  "cv_scores_per_fold": [
+    0.7543408606895493,
+    0.7554297774366846,
+    0.7552570990023024,
+    0.7550268610897928,
+    0.752168073676132
+  ],
+  "run_026_oof": 0.7545826761984796,
+  "run_026_g3_recall": 0.6429636084294527,
+  "blend_oof_f1": 0.7544061611428966,
+  "blend_g3_recall": 0.6510811988351028,
+  "gain_f1_vs_run_026": -0.00017651505558302638,
+  "gain_g3_recall_vs_run_026": 0.008117590405650188,
+  "segment_metrics": [],
+  "blend_boost_w": 0.05,
+  "blend_tau_w": 0.99,
+  "blend_boost_o": 0.2,
+  "blend_tau_o": 0.99,
+  "blend_delta_min": 0.03
+}

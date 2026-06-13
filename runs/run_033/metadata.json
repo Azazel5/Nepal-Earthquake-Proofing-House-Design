@@ -1,0 +1,11 @@
+{
+  "run_id": "run_033",
+  "g3_fn_g2": 30607,
+  "g3_fn_g1": 533,
+  "recommendations": [
+    "ORDINAL: 533 G3\u2192G1 skips \u2014 cumulative/ordinal loss worth testing",
+    "BLEND: q26 gap exists \u2014 targeted upgrades on high-lift combos may work with F1 floor",
+    "PSEUDO-LABEL: rare geo3 in test \u2014 check train vs test geo3 coverage before PL round"
+  ],
+  "oof_f1_base": 0.7545826761984796
+}

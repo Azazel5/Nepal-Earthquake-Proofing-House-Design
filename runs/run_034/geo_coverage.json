@@ -1,0 +1,8 @@
+{
+  "test_geo3_pct_support_lt5": 3.1933508311461063,
+  "test_geo3_pct_support_lt20": 22.05990698531105,
+  "borderline_fn_pct_support_lt5": 2.4197032982860436,
+  "borderline_fn_pct_support_lt20": 17.442027941811897,
+  "all_fn_pct_support_lt5": 3.747508739830758,
+  "gate": "PROCEED"
+}

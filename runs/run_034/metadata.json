@@ -1,0 +1,45 @@
+{
+  "run_id": "run_034",
+  "timestamp": "2026-06-13T13:50:44.273847+00:00",
+  "description": "Geo PL + foundation\u00d7geo interactions; XGB+LGBM retrain on pseudo-labeled test",
+  "model_type": "ensemble_pl_retrain",
+  "objective": "multiclass",
+  "feature_set": "run_024_xgb+run_019_lgbm+pl_interactions+pseudo_labels",
+  "n_features": 205,
+  "params": {
+    "teacher": "run_026",
+    "pl_tau": 0.85,
+    "pl_mode": "global_tau",
+    "n_pseudo": 29175,
+    "pl_class_counts": {
+      "1": 1411,
+      "2": 18284,
+      "3": 9480
+    },
+    "blend_alpha_xgb": 0.17273443723418844,
+    "blend_space": "proba",
+    "pca_k": 80,
+    "pca_variant": "embed_only",
+    "geo_gate": "PROCEED",
+    "solo_oof": {
+      "xgb": 0.7333893576770618,
+      "lgbm": 0.750964117559027,
+      "run_026": 0.7545826761984796
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7510677251350734,
+  "cv_std": 0.0011162421547045711,
+  "cv_scores_per_fold": [
+    0.7508297998887205,
+    0.7522640061396777,
+    0.7509785111281658,
+    0.751880276285495,
+    0.7493860322333078
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "Soft PL via sample_weight=max_prob; OOF on original train only."
+}

@@ -1,0 +1,12 @@
+{
+  "base_run": "run_026",
+  "segments": [
+    "weak_found",
+    "other_found"
+  ],
+  "boost_w": 0.0,
+  "tau_w": 1.0,
+  "boost_o": 0.0,
+  "tau_o": 1.0,
+  "delta_min": 0.0
+}
