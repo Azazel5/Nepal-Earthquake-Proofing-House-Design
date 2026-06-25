@@ -1,0 +1,30 @@
+{
+  "run_id": "run_040",
+  "timestamp": "2026-06-25T21:16:48.889848+00:00",
+  "description": "FT-Transformer on run_012 features",
+  "model_type": "PyTorch_Transformer",
+  "objective": "multiclass",
+  "feature_set": "run_012_features",
+  "n_features": 191,
+  "params": {
+    "epochs": 15,
+    "lr": 0.001,
+    "d_model": 64,
+    "n_layers": 3
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.17657709846098296,
+  "cv_std": 0.009035660431927203,
+  "cv_scores_per_fold": [
+    0.17694548313293085,
+    0.16199000161264313,
+    0.17632414453459658,
+    0.18170639520233836,
+    0.1859194678224059
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}

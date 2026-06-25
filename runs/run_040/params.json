@@ -1,0 +1,6 @@
+{
+  "epochs": 15,
+  "lr": 0.001,
+  "d_model": 64,
+  "n_layers": 3
+}
