@@ -1,0 +1,30 @@
+{
+  "run_id": "run_039",
+  "timestamp": "2026-06-25T19:17:23.776228+00:00",
+  "description": "Transductive GeoSAGE GNN on run_012 features",
+  "model_type": "PyTorch_GNN",
+  "objective": "multiclass",
+  "feature_set": "run_012_features+geo3_graph",
+  "n_features": 191,
+  "params": {
+    "epochs": 100,
+    "lr": 0.003,
+    "hidden": 512,
+    "dropout": 0.3
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7684275940174217,
+  "cv_std": 0.0006275272310463982,
+  "cv_scores_per_fold": [
+    0.7689990598798948,
+    0.7691289332310054,
+    0.7676515732924022,
+    0.7683039140445127,
+    0.7680544896392939
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}
