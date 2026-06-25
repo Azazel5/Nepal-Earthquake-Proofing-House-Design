@@ -1,0 +1,30 @@
+{
+  "run_id": "run_038",
+  "timestamp": "2026-06-25T19:02:46.870206+00:00",
+  "description": "Strong MLP with QuantileTransformer",
+  "model_type": "PyTorch_MLP",
+  "objective": "multiclass",
+  "feature_set": "run_012_features",
+  "n_features": 191,
+  "params": {
+    "epochs": 40,
+    "lr": 0.003,
+    "hidden": 512,
+    "dropout": 0.3
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.17128760955597508,
+  "cv_std": 0.007297691107511872,
+  "cv_scores_per_fold": [
+    0.16710845923581644,
+    0.16487260119335592,
+    0.1811621226629038,
+    0.16632565640276167,
+    0.17696920828503754
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}

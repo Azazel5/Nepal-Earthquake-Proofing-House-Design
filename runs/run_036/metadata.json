@@ -1,0 +1,44 @@
+{
+  "run_id": "run_036",
+  "timestamp": "2026-06-25T18:25:54.118187+00:00",
+  "description": "Foundation\u00d7geo1+geo2 dense hierarchical rates + run_026 retrain (no PL)",
+  "model_type": "ensemble_blend",
+  "objective": "multiclass",
+  "feature_set": "found_geo12_rates+run_024_xgb+run_019_lgbm",
+  "n_features": 198,
+  "params": {
+    "rate_features": [
+      "foundg1_p_grade1",
+      "foundg1_p_grade2",
+      "foundg1_p_grade3",
+      "foundg2_p_grade1",
+      "foundg2_p_grade2",
+      "foundg2_p_grade3",
+      "weak_x_foundg2_p3"
+    ],
+    "alpha_g1": 5,
+    "alpha_g2": 20,
+    "blend_alpha_xgb": 0.43125120004411366,
+    "blend_space": "logit",
+    "solo_oof": {
+      "xgb": 0.751804482714955,
+      "lgbm": 0.7523877498551426,
+      "run_026": 0.7545826761984796
+    }
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7541183637083454,
+  "cv_std": 0.0011044660901415697,
+  "cv_scores_per_fold": [
+    0.7544176051879281,
+    0.7537029930928626,
+    0.7548349961627014,
+    0.7552187260168841,
+    0.7524174980813507
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "run_035 redo at dense geo1/geo2 granularity to fix the geo3 sparsity leak."
+}

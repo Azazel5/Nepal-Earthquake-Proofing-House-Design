@@ -1,0 +1,20 @@
+{
+  "rate_features": [
+    "foundg1_p_grade1",
+    "foundg1_p_grade2",
+    "foundg1_p_grade3",
+    "foundg2_p_grade1",
+    "foundg2_p_grade2",
+    "foundg2_p_grade3",
+    "weak_x_foundg2_p3"
+  ],
+  "alpha_g1": 5,
+  "alpha_g2": 20,
+  "blend_alpha_xgb": 0.43125120004411366,
+  "blend_space": "logit",
+  "solo_oof": {
+    "xgb": 0.751804482714955,
+    "lgbm": 0.7523877498551426,
+    "run_026": 0.7545826761984796
+  }
+}
