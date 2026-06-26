@@ -1,0 +1,33 @@
+{
+  "run_id": "run_047",
+  "timestamp": "2026-06-26T09:06:39.206856+00:00",
+  "description": "GNN generalization fix (DropEdge p=0.5 + neighbor mask q=0.3); spec'd run_045",
+  "model_type": "PyTorch_GNN",
+  "objective": "multiclass",
+  "feature_set": "run_012_features+geo3_graph+dropedge+neighbor_mask",
+  "n_features": 191,
+  "params": {
+    "epochs": 200,
+    "lr": 0.0021,
+    "hidden": 512,
+    "dropout": 0.3,
+    "drop_p": 0.5,
+    "mask_q": 0.3,
+    "base_run": "run_039"
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.7644137966023126,
+  "cv_std": 0.0006106203462411381,
+  "cv_scores_per_fold": [
+    0.7646054373477101,
+    0.7643898695318496,
+    0.7650997697620875,
+    0.7645433614735226,
+    0.763430544896393
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": "within_cell_var=0.011635; best_blend_w=0.00; best_blend_oof=0.7546"
+}

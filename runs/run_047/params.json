@@ -1,0 +1,9 @@
+{
+  "epochs": 200,
+  "lr": 0.0021,
+  "hidden": 512,
+  "dropout": 0.3,
+  "drop_p": 0.5,
+  "mask_q": 0.3,
+  "base_run": "run_039"
+}
