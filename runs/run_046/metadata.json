@@ -1,0 +1,40 @@
+{
+  "run_id": "run_046",
+  "timestamp": "2026-06-26T00:45:33.403631+00:00",
+  "description": "run_044c: run_012 + Block_B_LOO_geo_level_1_id",
+  "model_type": "LightGBM",
+  "objective": "multiclass",
+  "feature_set": "run_012+block_b_geo_level_1_id",
+  "n_features": 195,
+  "params": {
+    "objective": "multiclass",
+    "num_class": 3,
+    "metric": "multi_logloss",
+    "learning_rate": 0.05,
+    "num_leaves": 128,
+    "max_depth": 10,
+    "feature_fraction": 0.6,
+    "bagging_fraction": 0.8,
+    "bagging_freq": 1,
+    "min_child_samples": 50,
+    "n_estimators": 1500,
+    "verbose": -1,
+    "n_jobs": 4,
+    "random_state": 42
+  },
+  "cv_folds": 5,
+  "cv_metric": "micro_f1",
+  "cv_mean": 0.13491506635417383,
+  "cv_std": 0.001243042209427204,
+  "cv_scores_per_fold": [
+    0.13370810230041633,
+    0.13545663852647735,
+    0.13392171910974673,
+    0.13472755180353033,
+    0.13676132003069838
+  ],
+  "public_leaderboard_score": null,
+  "submitted": false,
+  "submission_date": null,
+  "notes": ""
+}
